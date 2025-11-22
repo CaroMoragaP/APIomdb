@@ -1,0 +1,30 @@
+En el desarrollo de aplicaciones con Spring Framework, es común encontrarse con la siguiente situación: 
+Tener entidades (generalmente denominadas entidades de dominio o entidades de persistencia) que se usan para interactuar 
+con la base de datos y objetos de transferencia de datos (DTOs) que se usan para otras operaciones como transferir datos 
+en la red, guardar en sesión, entre otros.
+
+La decisión de si necesitas ambos, el entity y el DTO (objeto de transferencia de datos), o si puedes trabajar con uno 
+solo depende de varios factores:
+
+1. **Separación de Concerns**: Las entidades de dominio están diseñadas para representar la estructura de tu base de datos 
+y generalmente están anotadas con JPA para mapear estas estructuras. Los DTOs, por otro lado, están diseñados para transferir 
+datos y pueden incluir o excluir información según las necesidades del caso de uso. Si tu entidad y tu DTO son idénticos en 
+estructura y propósito, podrías considerar usar solo uno. Sin embargo, si anticipas que la estructura de tu base de datos 
+o tus requisitos de transferencia de datos cambiarán independientemente el uno del otro, mantenerlos separados podría ser 
+beneficioso.
+
+2. **Acoplamiento y Flexibilidad**: Usar DTOs proporciona una capa de abstracción entre tu capa de datos y las demás capas 
+de la aplicación. Esto puede ser ventajoso si necesitas cambiar la estructura de tu base de datos pero no quieres que estos 
+cambios afecten a otras partes de tu aplicación, como la interfaz de usuario o la lógica de negocio.
+
+3. **Seguridad y Control de Datos**: Los DTOs te permiten controlar qué datos se exponen a través de las APIs o se almacenan
+ en sesiones. Esto es útil para evitar la exposición accidental de datos sensibles o irrelevantes.
+
+4. **Rendimiento**: En algunos casos, las entidades de dominio pueden contener relaciones Lazy-loaded que no son necesarias
+ en ciertos contextos, como la transferencia de datos. Los DTOs pueden ayudar a mejorar el rendimiento al incluir solo los 
+ datos necesarios.
+
+En resumen, si tus entidades y DTOs son actualmente idénticos y no prevés la necesidad de que diverjan en el futuro, podrías
+ optar por usar solo uno. Sin embargo, si hay razones para creer que tus necesidades de datos pueden cambiar o si deseas 
+ mantener una separación clara entre la capa de persistencia y otras capas de la aplicación, mantener ambos podría ser la 
+ mejor opción.
