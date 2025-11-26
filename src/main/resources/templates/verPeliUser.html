@@ -4,7 +4,28 @@
 <meta charset="UTF-8" />
 <title th:text="${titulo}">Insert title here</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
+	
+			<style>
+				.rating {
+				    direction: rtl;
+				    unicode-bidi: bidi-override;
+				    font-size: 2rem;
+				    display: flex;
+				}
+				.rating input {
+				    display: none;
+				}
+				.rating label {
+				    color: #ccc;
+				    cursor: pointer;
+				    padding: 0 2px;
+				}
+				.rating input:checked ~ label,
+				.rating label:hover,
+				.rating label:hover ~ label {
+				    color: gold;
+				}
+			</style>
 </head>
 <body>
 
@@ -42,28 +63,36 @@
                 <h1  class="my-4">Año: <span th:text="${pelicula.year}" ></span></h1>
                 <h1  class="mt-4">Duración: <span th:text="${pelicula.runtime}" ></span></h1>
                 
-                <!-- RatingBar con 5 estrellas -->
-                <div class="rating text-center mt-4">
-				    <input type="radio" id="star5" name="ranking" value="5" />
-				    <label for="star5">★</label>
-				
-				    <input type="radio" id="star4" name="ranking" value="4" />
-				    <label for="star4">★</label>
-				
-				    <input type="radio" id="star3" name="ranking" value="3" />
-				    <label for="star3">★</label>
-				
-				    <input type="radio" id="star2" name="ranking" value="2" />
-				    <label for="star2">★</label>
-				
-				    <input type="radio" id="star1" name="ranking" value="1" />
-				    <label for="star1">★</label>
-				</div>
+                           	
+            	<!-- RatingBar con 5 estrellas -->
+				<form th:action="@{/peli/guardarPeliUsuario}" th:method="get">
 
-                <div class="text-center">
-                	<form th:action="@{/peli/guardarPeliUsuario}" th:object="${usuario}" th:method="get">
-						<input class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula"/>
-					</form>
+			    <h1 class="mt-4 d-flex align-items-center">
+			        Valoración:
+			
+			        <div class="rating ms-3">
+			            <input type="radio" id="star5" name="rating" value="5" />
+			            <label for="star5">★</label>
+			
+			            <input type="radio" id="star4" name="rating" value="4" />
+			            <label for="star4">★</label>
+			
+			            <input type="radio" id="star3" name="rating" value="3" />
+			            <label for="star3">★</label>
+			
+			            <input type="radio" id="star2" name="rating" value="2" />
+			            <label for="star2">★</label>
+			
+			            <input type="radio" id="star1" name="rating" value="1" />
+			            <label for="star1">★</label>
+			        </div>
+			    </h1>
+			
+			    <div class="text-center">
+			        <input class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula"/>
+			    </div>
+			</form>
+
 					
 					<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
 						<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
@@ -71,7 +100,6 @@
 				</div>
             </div>
         </div>
-    </div>
 
 
 

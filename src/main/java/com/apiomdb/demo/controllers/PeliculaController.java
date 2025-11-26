@@ -17,7 +17,9 @@ import com.apiomdb.demo.component.PeliculaComp;
 import com.apiomdb.demo.component.UsuarioComp;
 import com.apiomdb.demo.models.entity.Pelicula;
 import com.apiomdb.demo.models.entity.Usuario;
+import com.apiomdb.demo.models.entity.UsuarioPelicula;
 import com.apiomdb.demo.service.IPeliculaService;
+import com.apiomdb.demo.service.IUsuarioPeliculaService;
 import com.apiomdb.demo.service.IUsuarioService;
 import com.apiomdb.demo.service.impl.PeticionGetExternalmpl;
 
@@ -36,17 +38,17 @@ public class PeliculaController {
 	private IUsuarioService serviceUsuario;
 	@Autowired 
 	private IPeliculaService servicePelicula;
+	@Autowired
+	private IUsuarioPeliculaService serviceUsuarioPelicula;
 	
 	@Autowired 
 	private PeliculaComp peli;
 	
 	@Autowired 
 	private UsuarioComp usu;
-	
-	
-	
+		
 	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
-	public String crearFormulario(Usuario usu,Model model) {
+	public String crearFormulario(Usuario usu, Model model) {
 		Usuario usuario = usu;
 		model.addAttribute("pelicula", peli);
 		model.addAttribute("usuario", usuario);
@@ -81,7 +83,7 @@ public class PeliculaController {
 	}
 	
 	@RequestMapping(value = "/guardarPeliUsuario", method = RequestMethod.GET)
-	public String guardarUsuario(Model model) {
+	public String guardarUsuario(@RequestParam("rating") Integer ranking, Model model) {
 		
 		String siguientePantalla;
 		
@@ -105,8 +107,10 @@ public class PeliculaController {
 			Pelicula p = new Pelicula();
 			p.copia(peli);
 		    servicePelicula.save(p);
-			usu1.aniadirPelicula(p);
-			serviceUsuario.save(usu1);
+		    
+		    UsuarioPelicula relacion = new UsuarioPelicula(usu1, p, ranking);
+		    serviceUsuarioPelicula.save(relacion);
+		    
 			siguientePantalla="redirect:buscar";
 		}
 		//return siguientePantalla;
@@ -134,7 +138,12 @@ public class PeliculaController {
 		if(usu1==null) {
 			siguientePantalla="redirect:../user/registro";
 		}else {
-			List<Pelicula> peliculas = usu1.getPeliculasFav();
+			List<UsuarioPelicula> relaciones = serviceUsuarioPelicula.findByUsuario(usu1.getMail());
+
+	        // Extraer solo las películas
+	        List<Pelicula> peliculas = relaciones.stream()
+	                                             .map(UsuarioPelicula::getPelicula)
+	                                             .toList();
 
 			model.addAttribute("peliculas", peliculas);
 			model.addAttribute("usuario", usu1);
