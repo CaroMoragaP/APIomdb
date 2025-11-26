@@ -51,7 +51,6 @@ public class PeliculaController {
 		model.addAttribute("pelicula", peli);
 		model.addAttribute("usuario", usuario);
 		return "verPeliUser"; 
-
 	}
 	
 	@RequestMapping(value = "/verpeli", method = RequestMethod.GET)

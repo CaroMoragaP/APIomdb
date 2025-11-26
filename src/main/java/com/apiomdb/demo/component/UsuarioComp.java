@@ -120,7 +120,7 @@ public class UsuarioComp {
 	
 	@Override
 	public String toString() {
-		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 + ", peliculas=" + peliculasFav+ "]";
+		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 + ", peliculas=" + peliculasFav + "]";
 	}
 	
 	public void copia(Usuario usu) {
@@ -129,7 +129,7 @@ public class UsuarioComp {
 		this.apellido1=usu.getApellido1();
 		this.apellido2=usu.getPass();
 		this.pass=usu.getPass();
-		this.peliculasFav=usu.getPeliculasFav();
+		//this.peliculasFav=usu.getPeliculasFav();
 		this.añoNacimiento=usu.getAñoNacimiento();
 	}
 }

@@ -41,6 +41,25 @@
                 <h1 class="mt-5">Director: <span th:text="${pelicula.director}" ></span></h1>
                 <h1  class="my-4">Año: <span th:text="${pelicula.year}" ></span></h1>
                 <h1  class="mt-4">Duración: <span th:text="${pelicula.runtime}" ></span></h1>
+                
+                <!-- RatingBar con 5 estrellas -->
+                <div class="rating text-center mt-4">
+				    <input type="radio" id="star5" name="ranking" value="5" />
+				    <label for="star5">★</label>
+				
+				    <input type="radio" id="star4" name="ranking" value="4" />
+				    <label for="star4">★</label>
+				
+				    <input type="radio" id="star3" name="ranking" value="3" />
+				    <label for="star3">★</label>
+				
+				    <input type="radio" id="star2" name="ranking" value="2" />
+				    <label for="star2">★</label>
+				
+				    <input type="radio" id="star1" name="ranking" value="1" />
+				    <label for="star1">★</label>
+				</div>
+
                 <div class="text-center">
                 	<form th:action="@{/peli/guardarPeliUsuario}" th:object="${usuario}" th:method="get">
 						<input class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula"/>

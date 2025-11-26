@@ -1,6 +1,5 @@
 package com.apiomdb.demo.models.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -10,10 +9,8 @@ import com.apiomdb.demo.component.UsuarioComp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+//import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
-
 
 @Component
 @SessionScope
@@ -36,8 +33,8 @@ public class Usuario {
 
 	private int añoNacimiento;
 	
-	@ManyToMany
-	private List<Pelicula> peliculasFav;
+	//@ManyToMany
+	//private List<Pelicula> peliculasFav;
 	
 	
 	public Usuario(String nombre, String apellido1, String apellido2, String mail, int añoNacimiento) {
@@ -106,7 +103,7 @@ public class Usuario {
 		this.pass = pass;
 	}
 
-
+	/*
 	public List<Pelicula> getPeliculasFav() {
 		return peliculasFav;
 	}
@@ -121,10 +118,11 @@ public class Usuario {
 	public void aniadirPelicula(Pelicula p) {
 		this.peliculasFav.add(p);
 	}
+	*/
 	
 	@Override
 	public String toString() {
-		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 + ", peliculas=" + peliculasFav+ "]";
+		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 /*+ ", peliculas=" + peliculasFav */ + "]";
 	}
 	
 	public void copia(UsuarioComp usu) {
@@ -133,7 +131,7 @@ public class Usuario {
 		this.apellido1=usu.getApellido1();
 		this.apellido2=usu.getPass();
 		this.pass=usu.getPass();
-		this.peliculasFav=usu.getPeliculasFav();
+		//this.peliculasFav=usu.getPeliculasFav();
 		this.añoNacimiento=usu.getAñoNacimiento();
 	}
 	

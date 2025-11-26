@@ -1,0 +1,28 @@
+<style>
+    .rating {
+        direction: rtl;
+        unicode-bidi: bidi-override;
+        font-size: 2rem;
+        display: inline-flex;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .rating input {
+        display: none;
+    }
+
+    .rating label {
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .rating input:checked ~ label {
+        color: gold;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: gold;
+    }
+</style>
