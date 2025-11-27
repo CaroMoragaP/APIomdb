@@ -8,39 +8,41 @@
 <body>
 	<h3 class="text-center mt-5">Javier Carrascal Morales</h3>
 	
-		<h1 class="text-center mt-4">Lista peliculas de <span th:text="${usuario.nombre}"></span></h1>
+	<h1 class="text-center mt-4">Lista peliculas de <span th:text="${usuario.nombre}"></span></h1>
 		
-		<div class="container">
+	<div class="container">
 		<div class=" row justify-content-center align-item-center mt-3 mx-5">
-		<table class="table table-hover align-item-center text-center">
-	    <thead>
-	    <tr>
-	        <th>Titulo</th>
-	        <th>Director</th>
-	        <th>Año</th>
-			<th>Duración</th>
-	        <th>Poster</th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	    <tr th:each="item : ${peliculas}">
-	        <td ><h4><span th:text="${item.Title}"></h4>
-				<form th:action="@{/peli/verPelisUsuario}" th:object="${peli}" th:method="get">
-					<input type="hidden"  th:value="${item.imdbID}"  th:name="imdbID" th:id="imdbID" />
-					<input class="btn btn-dark" type="submit" value="i"/>
-				</form>
-	        </td>
-	        <td th:text="${item.director}"></td>
-	        <td th:text="${item.year}"></td>
-			<td th:text="${item.runtime}"></td>
-	        <td><img class="w-25" th:src="${item.poster}"></td>
-	    </tr>  
-	    </tbody>
-	</table>
-	</div>
+			<table class="table table-hover align-item-center text-center">
+			    <thead>
+				    <tr>
+				        <th>Titulo</th>
+				        <th>Director</th>
+				        <th>Año</th>
+						<th>Duración</th>
+				        <th>Poster</th>
+				    </tr>
+			    </thead>
+			    <tbody>
+				    <tr th:each="item : ${peliculas}">
+				        <td ><h4><span th:text="${item.Title}"></h4>
+							<form th:action="@{/peli/verPelisUsuario}" th:object="${peli}" th:method="get">
+								<input type="hidden"  th:value="${item.imdbID}"  th:name="imdbID" th:id="imdbID" />
+								<input class="btn btn-dark" type="submit" value="i"/>
+							</form>
+				        </td>
+				        <td th:text="${item.director}"></td>
+				        <td th:text="${item.year}"></td>
+						<td th:text="${item.runtime}"></td>
+				        <td><img class="w-25" th:src="${item.poster}"></td>
+				    </tr>  
+			    </tbody>
+			</table>
 		</div>
+	</div>
 	
-
+	<div class="text-center mt-4">
+		<a th:href="@{/peli/buscar}">Buscar otra película</a>
+	</div>	
 		
 </body>
 </html>

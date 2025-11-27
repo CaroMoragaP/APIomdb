@@ -135,15 +135,14 @@ public class PeliculaController {
 		Usuario usuario= new Usuario();
 		usuario.copia(usu);
 		Usuario usu1= serviceUsuario.findOne(usuario.getMail());
-		if(usu1==null) {
+		
+		if(usu1 == null) {
 			siguientePantalla="redirect:../user/registro";
 		}else {
 			List<UsuarioPelicula> relaciones = serviceUsuarioPelicula.findByUsuario(usu1.getMail());
 
 	        // Extraer solo las películas
-	        List<Pelicula> peliculas = relaciones.stream()
-	                                             .map(UsuarioPelicula::getPelicula)
-	                                             .toList();
+	        List<Pelicula> peliculas = relaciones.stream().map(UsuarioPelicula::getPelicula).toList();
 
 			model.addAttribute("peliculas", peliculas);
 			model.addAttribute("usuario", usu1);
