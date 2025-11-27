@@ -32,8 +32,8 @@ public class UsuarioComp {
 
 	private int añoNacimiento;
 	
-	@ManyToMany
-	private List<Pelicula> peliculasFav;
+	//@ManyToMany
+	//private List<Pelicula> peliculasFav;
 	
 	
 	public UsuarioComp(String nombre, String apellido1, String apellido2, String mail, int añoNacimiento) {
@@ -102,7 +102,7 @@ public class UsuarioComp {
 		this.pass = pass;
 	}
 
-
+	/*
 	public List<Pelicula> getPeliculasFav() {
 		return peliculasFav;
 	}
@@ -117,10 +117,10 @@ public class UsuarioComp {
 	public void aniadirPelicula(Pelicula p) {
 		this.peliculasFav.add(p);
 	}
-	
+	*/
 	@Override
 	public String toString() {
-		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 + ", peliculas=" + peliculasFav + "]";
+		return "Usuario [email=" + mail + ", nombre=" + nombre + ", apellido=" + apellido1 /*+ ", peliculas=" + peliculasFav */ + "]";
 	}
 	
 	public void copia(Usuario usu) {
