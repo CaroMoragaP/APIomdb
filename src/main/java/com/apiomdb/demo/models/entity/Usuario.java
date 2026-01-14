@@ -1,6 +1,7 @@
 package com.apiomdb.demo.models.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -134,5 +135,27 @@ public class Usuario {
 		//this.peliculasFav=usu.getPeliculasFav();
 		this.añoNacimiento=usu.getAñoNacimiento();
 	}
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(apellido1, apellido2, añoNacimiento, mail, nombre, pass);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(apellido1, other.apellido1) && Objects.equals(apellido2, other.apellido2)
+				&& añoNacimiento == other.añoNacimiento && Objects.equals(mail, other.mail)
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(pass, other.pass);
+	}
 	
+
 }

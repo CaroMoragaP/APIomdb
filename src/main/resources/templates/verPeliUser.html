@@ -46,6 +46,16 @@
 			</form>
 		</div>
 	</div>
+	
+	<div class="text-center">
+					<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
+						<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
+					</form>
+				</div>
+				
+	<!-- Agregar botón "Películas compartidas" -->
+		
+	<!-- Agregar botón "Películas enviadas" -->
 
 <!-- El siguiente contenedor solo se verá en caso de que se haya buscado una película previamente -->
 
@@ -88,13 +98,13 @@
 			    <div class="text-center">
 			        <input id="btnGuardar" class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula" disabled/>
 			    </div>
+			    
+			    <div>
+			    	<!-- Agregar botón "Enviar a un amigo" -->
+			    </div>
 			</form>
 
-				<div class="text-center">
-					<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
-						<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
-					</form>
-				</div>
+				
 				</div>
             </div>
         </div>

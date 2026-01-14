@@ -1,5 +1,7 @@
 package com.apiomdb.demo.models.entity;
 
+import java.util.Objects;
+
 import com.apiomdb.demo.component.PeliculaComp;
 
 import jakarta.persistence.Column;
@@ -108,5 +110,26 @@ public class Pelicula {
 		return "Pelicula [imdbID=" + imdbID + ", Title=" + Title + ", Director=" + Director + ", Year=" + Year
 				+ ", Runtime=" + Runtime + ", Poster=" + Poster + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Director, Poster, Runtime, Title, Year, imdbID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pelicula other = (Pelicula) obj;
+		return Objects.equals(Director, other.Director) && Objects.equals(Poster, other.Poster)
+				&& Objects.equals(Runtime, other.Runtime) && Objects.equals(Title, other.Title)
+				&& Objects.equals(Year, other.Year) && Objects.equals(imdbID, other.imdbID);
+	}
+	
+	
 
 }

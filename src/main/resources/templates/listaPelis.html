@@ -20,6 +20,10 @@
 				        <th>Año</th>
 						<th>Duración</th>
 				        <th>Poster</th>
+				        
+				 <!-- Estas 2 columnas se deben visualizar sólo si se accede desde botón "Películas compartidas" de verPeliUser.html  -->
+				        <th>Amigo</th>
+				        <th>Valorar</th>
 				    </tr>
 			    </thead>
 			    <tbody>
@@ -34,6 +38,29 @@
 				        <td th:text="${item.year}"></td>
 						<td th:text="${item.runtime}"></td>
 				        <td><img class="w-25" th:src="${item.poster}"></td>
+				        
+				    <!-- Estas 2 columnas se debe visualizar sólo si se accede desde botón "Películas compartidas" de verPeliUser.html  -->
+				        <td></td>
+				        <td>
+					        <div class="rating ms-3">
+					            <input type="radio" id="star5" name="rating" value="5" onclick="habilitarGuardar()" />
+					            <label for="star5">★</label>
+					
+					            <input type="radio" id="star4" name="rating" value="4" onclick="habilitarGuardar()" />
+					            <label for="star4">★</label>
+					
+					            <input type="radio" id="star3" name="rating" value="3" onclick="habilitarGuardar()" />
+					            <label for="star3">★</label>
+					
+					            <input type="radio" id="star2" name="rating" value="2" onclick="habilitarGuardar()" />
+					            <label for="star2">★</label>
+					
+					            <input type="radio" id="star1" name="rating" value="1" onclick="habilitarGuardar()" />
+					            <label for="star1">★</label>
+					        </div>
+					        
+					        <!-- Al seleccionar una valoración, se debe guardar en la base de datos en la tabla PelisCompartidas -->
+				        </td>
 				    </tr>  
 			    </tbody>
 			</table>
@@ -42,7 +69,13 @@
 	
 	<div class="text-center mt-4">
 		<a th:href="@{/peli/buscar}">Buscar otra película</a>
-	</div>	
+	</div>
+	
+		<script>
+		function habilitarGuardar(){
+		    document.getElementById("btnGuardar").disabled = false;
+		}
+	</script>	
 		
 </body>
 </html>
