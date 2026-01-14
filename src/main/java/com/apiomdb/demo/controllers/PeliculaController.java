@@ -18,6 +18,7 @@ import com.apiomdb.demo.component.UsuarioComp;
 import com.apiomdb.demo.models.entity.Pelicula;
 import com.apiomdb.demo.models.entity.Usuario;
 import com.apiomdb.demo.models.entity.UsuarioPelicula;
+import com.apiomdb.demo.models.entity.UsuarioPeliculaId;
 import com.apiomdb.demo.service.IPeliculaService;
 import com.apiomdb.demo.service.IUsuarioPeliculaService;
 import com.apiomdb.demo.service.IUsuarioService;
@@ -108,7 +109,13 @@ public class PeliculaController {
 			p.copia(peli);
 		    servicePelicula.save(p);
 		    
-		    UsuarioPelicula relacion = new UsuarioPelicula(usu1, p, ranking);
+		    Usuario receptorNulo = new Usuario("0", );
+		    
+		    UsuarioPeliculaId id = new UsuarioPeliculaId(usu1.getMail(), null, p.getImdbID());
+		    
+		    
+		    
+		    UsuarioPelicula relacion = new UsuarioPelicula(id,usu1,null, p, ranking);
 		    serviceUsuarioPelicula.save(relacion);
 		    
 			siguientePantalla="redirect:buscar";

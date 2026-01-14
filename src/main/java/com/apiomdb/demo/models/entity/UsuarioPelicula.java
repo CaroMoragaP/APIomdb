@@ -22,30 +22,26 @@ public class UsuarioPelicula {
     private Usuario usuario;
     
     @ManyToOne(fetch = FetchType.LAZY) //la relación NO se carga automáticamente, solo cuando se necesita (mejor el rendimiento)
-    @JoinColumn(name = "receptor", insertable = false, updatable = false)
+    @JoinColumn(name = "receptor", insertable = false, updatable = false, nullable = true)
     private Usuario receptor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pelicula_imdb", insertable = false, updatable = false)
     private Pelicula pelicula;
 
-    @Column(name = "ranking Usuario")
-    private float rankingUsuario;
-    
-    @Column(name = "ranking Receptor")
-    private float rankingReceptor;
+    @Column(name = "ranking")
+    private float ranking;
 
     public UsuarioPelicula() {}
 
 	public UsuarioPelicula(UsuarioPeliculaId id, Usuario usuario, Usuario receptor, Pelicula pelicula,
-			float rankingUsuario, float rankingReceptor) {
+			float rankingUsuario) {
 		super();
 		this.id = id;
 		this.usuario = usuario;
 		this.receptor = receptor;
 		this.pelicula = pelicula;
-		this.rankingUsuario = rankingUsuario;
-		this.rankingReceptor = rankingReceptor;
+		this.ranking = rankingUsuario;
 	}
 
 	public UsuarioPeliculaId getId() {
@@ -81,24 +77,17 @@ public class UsuarioPelicula {
 	}
 
 	public float getRankingUsuario() {
-		return rankingUsuario;
+		return ranking;
 	}
 
 	public void setRankingUsuario(float rankingUsuario) {
-		this.rankingUsuario = rankingUsuario;
+		this.ranking = rankingUsuario;
 	}
 
-	public float getRankingReceptor() {
-		return rankingReceptor;
-	}
-
-	public void setRankingReceptor(float rankingReceptor) {
-		this.rankingReceptor = rankingReceptor;
-	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, pelicula, rankingReceptor, rankingUsuario, receptor, usuario);
+		return Objects.hash(id, pelicula, ranking, receptor, usuario);
 	}
 
 	@Override
@@ -111,8 +100,7 @@ public class UsuarioPelicula {
 			return false;
 		UsuarioPelicula other = (UsuarioPelicula) obj;
 		return Objects.equals(id, other.id) && Objects.equals(pelicula, other.pelicula)
-				&& Float.floatToIntBits(rankingReceptor) == Float.floatToIntBits(other.rankingReceptor)
-				&& Float.floatToIntBits(rankingUsuario) == Float.floatToIntBits(other.rankingUsuario)
+				&& Float.floatToIntBits(ranking) == Float.floatToIntBits(other.ranking)
 				&& Objects.equals(receptor, other.receptor) && Objects.equals(usuario, other.usuario);
 	}
 
