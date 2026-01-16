@@ -27,9 +27,9 @@ public class UsuarioPeliculaDao implements IUsuarioPeliculaDao {
     }
 
     @Override
-    public List<UsuarioPelicula> findByUsuario(String mail) {
+    public List<UsuarioPelicula> findByUsuario(String usuarioMail) {
         return em.createQuery("SELECT up FROM UsuarioPelicula up WHERE up.usuario.mail = :mail", UsuarioPelicula.class)
-                 .setParameter("mail", mail)
+                 .setParameter("mail", usuarioMail)
                  .getResultList();
     }
 
@@ -40,4 +40,20 @@ public class UsuarioPeliculaDao implements IUsuarioPeliculaDao {
             em.remove(up);
         }
     }
+
+	@Override
+	public List<UsuarioPelicula> findByReceptor(String receptorMail) {
+		return em.createQuery("SELECT up FROM UsuarioPelicula up WHERE up.receptor.mail = :mail", UsuarioPelicula.class)
+                .setParameter("mail", receptorMail)
+                .getResultList();
+	}
+
+	@Override
+	public List<UsuarioPelicula> findByUsuarioAndReceptor(String usuarioMail, String receptorMail) {
+		return em.createQuery("SELECT up FROM UsuarioPelicula up WHERE up.usuario.mail = :mailUsu and up.receptor.mail = :mailRecep", UsuarioPelicula.class)
+                .setParameter("mailUsu", usuarioMail)
+                .setParameter("mailRecep", receptorMail)
+                .getResultList();
+	}
+
 }

@@ -40,4 +40,14 @@ public class UsuarioPeliculaServiceImpl implements IUsuarioPeliculaService {
     public void delete(UsuarioPeliculaId id) {
         usuarioPeliculaDao.delete(id);
     }
+
+	@Override
+	public List<UsuarioPelicula> findByReceptor(String receptorMail) {
+		return usuarioPeliculaDao.findByReceptor(receptorMail);
+	}
+
+	@Override
+	public List<UsuarioPelicula> findByUsuarioAndReceptor(String usuarioMail, String receptorMail) {
+		return usuarioPeliculaDao.findByUsuarioAndReceptor(usuarioMail, receptorMail);
+	}
 }

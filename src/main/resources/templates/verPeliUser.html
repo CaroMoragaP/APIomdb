@@ -28,6 +28,7 @@
 			</style>
 </head>
 <body>
+<!-- Menú superior con buscador -->
 	<div class="row justify-content-center align-items-start mt-5 mb-4">
 		<div class="col-2">
 			<form th:action="@{/peli/verpeli}" th:object="${pelicula}" th:method="get">
@@ -48,14 +49,20 @@
 	</div>
 	
 	<div class="text-center">
-					<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
-						<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
-					</form>
-				</div>
-				
-	<!-- Agregar botón "Películas compartidas" -->
+		<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
+			<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
+		</form>
 		
-	<!-- Agregar botón "Películas enviadas" -->
+		<!-- Botón "Películas compartidas" -->
+		<form th:action="@{/peli/peliculasCompartidas}" th:object="${usuario}" th:method="get">
+			<input class="btn btn-dark mt-4" type="submit" value="Películas Compartidas"/>	
+		</form>
+		
+		<!-- Botón "Películas enviadas" -->
+		<form th:action="@{/peli/peliculasEnviadas}" th:object="${usuario}" th:method="get">
+			<input class="btn btn-dark mt-4" type="submit" value="Películas Enviadas"/>	
+		</form>
+	</div>
 
 <!-- El siguiente contenedor solo se verá en caso de que se haya buscado una película previamente -->
 
@@ -98,16 +105,19 @@
 			    <div class="text-center">
 			        <input id="btnGuardar" class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula" disabled/>
 			    </div>
-			    
-			    <div>
-			    	<!-- Agregar botón "Enviar a un amigo" -->
-			    </div>
 			</form>
+			    
+			<div class="text-center">
+			    <!-- Botón "Enviar a un amigo" -->
+			    <form th:action="@{/peli/enviarAmigo}" th:method="get">
+			        <input class="btn btn-success mt-3" type="submit" value="Enviar a un Amigo"/>
+			    </form>
+			</div>
 
 				
-				</div>
-            </div>
+			</div>
         </div>
+    </div>
 
 		
 	<h3 class="text-center mt-5">Javier Carrascal Morales</h3>

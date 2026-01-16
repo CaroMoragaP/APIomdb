@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas enviadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<h1 class="text-center mt-4">
+    Películas enviadas por <span th:text="${usuario.nombre}"></span>
+</h1>
+
+<div class="container mt-4">
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Amigo</th>
+            <th>Valoración receptor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rel : ${relaciones}">
+            <td th:text="${rel.pelicula.Title}"></td>
+            <td th:text="${rel.receptor.mail}"></td>
+            <td>
+                <span th:if="${rel.rankingUsuario == 0}">Sin valoración</span>
+                <span th:if="${rel.rankingUsuario != 0}"
+                      th:text="${rel.rankingUsuario}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center mt-4">
+    <a th:href="@{/peli/buscar}">Volver</a>
+</div>
+</body>
+</html>
