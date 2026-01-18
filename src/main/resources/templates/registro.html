@@ -2,70 +2,73 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Registro Usuario</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-<div class="container">
-		<div class=" row justify-content-center align-items-center  mt-5">
-			<div class="col-12 my-3">
-				<h1 class="text-center">Registro</h1>
+	<!-- Top Navigation Bar -->
+	<nav class="navbar">
+		<div class="navbar-container">
+			<div class="navbar-left">
+				<h2 class="navbar-title">MovieApp</h2>
 			</div>
- <div class=" col-6 text-center bg-light border border-secondary p-5">
-<form th:action="@{/user/registrado}" th:object="${usu}" method="get">
-			<div>
-				<label>Nombre</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{nombre}"/> 
-				</div>
-			</div>
-			<div>
-				<label>Apellido1</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{apellido1}"/> 
-				</div>
-			</div>
-			<div>
-				<label>Apellido2</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{apellido2}"/> 
-				</div>
-			</div>
-				<div>
-				<label>Año Nacimiento</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{añoNacimiento}"/> 
-				</div>
-			</div>
-			<div>
-				<label>Email</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{mail}"/> 
-				</div>
-			</div>
-			<div>
-				<label>Password</label>
-				<div>
-					<input class="form-control form-control-sm" type="text" th:field="*{pass}"/> 
-				</div>
-			</div>
-			
-			<div>
-				<div>
-					<input class="btn btn-primary my-2" type="submit" value="Registrarse"/>
-				</div>
-			</div>
-
-	</form>
-	<form th:action="@{/user/login}" method="get">
-		  <input class="btn btn-primary mb-5" type="submit" value="Volver Atras">
-	</form>
-				</div>
-			</div>	
 		</div>
+	</nav>
+
+	<!-- Main Content Area -->
+	<div class="main-content">
+		<div class="login-container">
+			<div class="login-card">
+				<h1 class="login-title">Registro</h1>
+				
+				<form th:action="@{/user/registrado}" th:object="${usu}" method="get" class="login-form">
+					<div class="form-group">
+						<label for="nombre" class="form-label">Nombre</label>
+						<input type="text" id="nombre" th:field="*{nombre}" placeholder="Nombre..." class="login-input" required>
+					</div>
+
+					<div class="form-group">
+						<label for="apellido1" class="form-label">Apellido 1</label>
+						<input type="text" id="apellido1" th:field="*{apellido1}" placeholder="Apellido 1..." class="login-input" required>
+					</div>
+
+					<div class="form-group">
+						<label for="apellido2" class="form-label">Apellido 2</label>
+						<input type="text" id="apellido2" th:field="*{apellido2}" placeholder="Apellido 2..." class="login-input" required>
+					</div>
+
+					<div class="form-group">
+						<label for="anoNacimiento" class="form-label">Año Nacimiento</label>
+						<input type="text" id="anoNacimiento" th:field="*{añoNacimiento}" placeholder="Año Nacimiento..." class="login-input" required>
+					</div>
+
+					<div class="form-group">
+						<label for="mail" class="form-label">Email</label>
+						<input type="email" id="mail" th:field="*{mail}" placeholder="Email..." class="login-input" required>
+					</div>
+
+					<div class="form-group">
+						<label for="pass" class="form-label">Password</label>
+						<input type="password" id="pass" th:field="*{pass}" placeholder="Password..." class="login-input" required>
+					</div>
+
+					<button type="submit" class="btn btn-primary login-btn">Registrarse</button>
+				</form>
+			</div>
+		</div>
+		
+					<div class=text-center>
+				<form class="inline-form" th:action="@{/user/login}">
+					<button type="submit" class="nav-btn">Volver Atrás</button>
+				</form>
+			</div>
 	</div>
 
-	<h3 class="text-center mt-5">Alejandro Fernández Carreras</h3>
-
+	<!-- Footer -->
+	<footer class="footer">
+		<h3>Carolina Moraga Ponce</h3>
+	</footer>
+	
 </body>
 </html>

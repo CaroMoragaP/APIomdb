@@ -5,12 +5,27 @@
     <title>Películas enviadas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet">
+     <link rel="stylesheet" th:href="@{/estilo.css}" />
 </head>
 <body>
-<h1 class="text-center mt-4">
-    Películas enviadas por <span th:text="${usuario.nombre}"></span>
-</h1>
-
+<nav class="navbar">
+        <div class="navbar-container">
+         <div class="navbar-left">
+                <h1 class="navbar-title">
+			    <span th:text="${usuario.nombre}"></span>
+				</h1>
+            </div>
+	        <h1 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
+			    Películas enviadas
+			</h1>
+            <!-- Volver -->
+            <div class="navbar-right">
+	            <div class="text-center mt-4">
+				    <a th:href="@{/peli/buscar}">Volver</a>
+				</div>
+            </div>
+        </div>
+    </nav>
 <div class="container mt-4">
     <table class="table table-hover text-center">
         <thead>
@@ -34,8 +49,8 @@
     </table>
 </div>
 
-<div class="text-center mt-4">
-    <a th:href="@{/peli/buscar}">Volver</a>
-</div>
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
 </body>
 </html>

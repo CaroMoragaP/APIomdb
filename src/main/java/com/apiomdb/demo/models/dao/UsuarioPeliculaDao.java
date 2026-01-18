@@ -56,4 +56,12 @@ public class UsuarioPeliculaDao implements IUsuarioPeliculaDao {
                 .getResultList();
 	}
 
+	@Override
+	public List<UsuarioPelicula> findByUsuarioAndReceptorNot(String usuarioMail, String receptorMail) {
+		return em.createQuery("SELECT up FROM UsuarioPelicula up WHERE up.usuario.mail = :mailUsu and up.receptor.mail <> :mailRecep", UsuarioPelicula.class)
+                .setParameter("mailUsu", usuarioMail)
+                .setParameter("mailRecep", receptorMail)
+                .getResultList();
+	}
+
 }

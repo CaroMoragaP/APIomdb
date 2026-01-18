@@ -17,4 +17,6 @@ public interface IUsuarioPeliculaService {
 	public List<UsuarioPelicula> findByReceptor(String receptorMail);
 	
 	public List<UsuarioPelicula> findByUsuarioAndReceptor(String usuarioMail, String receptorMail);
+	
+	public List<UsuarioPelicula> findByUsuarioAndReceptorNot(String usuarioMail, String receptorMail);
 }

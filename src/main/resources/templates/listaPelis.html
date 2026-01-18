@@ -7,35 +7,31 @@
           rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossorigin="anonymous">
-    <style>
-        .rating {
-            direction: rtl;
-            unicode-bidi: bidi-override;
-            font-size: 1.3rem;
-            display: flex;
-            justify-content: center;
-        }
-        .rating input {
-            display: none;
-        }
-        .rating label {
-            color: #ccc;
-            cursor: pointer;
-            padding: 0 2px;
-        }
-        .rating input:checked ~ label,
-        .rating label:hover,
-        .rating label:hover ~ label {
-            color: gold;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/estilo.css}" />
+    
 </head>
 <body>
-<h3 class="text-center mt-5">Javier Carrascal Morales</h3>
-
-<h1 class="text-center mt-4">
-    Lista películas de <span th:text="${usuario.nombre}"></span>
-</h1>
+<nav class="navbar">
+        <div class="navbar-container">
+         <div class="navbar-left">
+                <h1 class="navbar-title">
+			    <span th:text="${usuario.nombre}"></span>
+				</h1>
+            </div>
+	        <h1 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
+			    Mis Películas
+			</h1>
+			<h1 class="navbar-title" th:if="${modoCompartidas}">
+			    Películas compartidas para mi
+			</h1>
+            <!-- Botones -->
+            <div class="navbar-right">
+	            <div class="text-left mt-4">
+				    <a th:href="@{/peli/buscar}">Volver</a>
+				</div>
+            </div>
+        </div>
+    </nav>
 
 <div class="container">
 
@@ -152,9 +148,9 @@
     </div>
 </div>
 
-<div class="text-center mt-4">
-    <a th:href="@{/peli/buscar}">Buscar otra película</a>
-</div>
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
 
 </body>
 </html>

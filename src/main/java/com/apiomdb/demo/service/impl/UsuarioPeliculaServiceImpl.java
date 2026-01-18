@@ -50,4 +50,9 @@ public class UsuarioPeliculaServiceImpl implements IUsuarioPeliculaService {
 	public List<UsuarioPelicula> findByUsuarioAndReceptor(String usuarioMail, String receptorMail) {
 		return usuarioPeliculaDao.findByUsuarioAndReceptor(usuarioMail, receptorMail);
 	}
+	
+	@Override
+	public List<UsuarioPelicula> findByUsuarioAndReceptorNot(String usuarioMail, String receptorMail) {
+		return usuarioPeliculaDao.findByUsuarioAndReceptorNot(usuarioMail, receptorMail);
+	}
 }

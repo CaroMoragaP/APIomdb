@@ -21,7 +21,6 @@ public class UsuarioServicelmpl implements IUsuarioService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Usuario> findAll() {
-		// TODO Auto-generated method stub
 		return usuDao.findAll();
 	}
 

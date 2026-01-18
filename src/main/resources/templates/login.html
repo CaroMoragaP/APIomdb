@@ -2,44 +2,53 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Login Usuario</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-	
-	
-
-
-	
-	<div class="container ">
-<div class=" row justify-content-center align-items-center  mt-5">
- <div class=" col-5 col-md-6  bg-light border border-secondary px-5 mt-5">
- 	<h1 class="display-3 my-5 text-center">Login Usuario</h1>
- 	<form th:action="@{/user/logueado}" th:object="${usu}" method="get">
-	
-		<p >Email: <input class="form-control form-control-sm" type="text" th:field=*{mail}></p> 
-		<p >Password: <input type="password" class="form-control form-control-sm" th:field=*{pass}></p>
-
-		<div class="d-grid gap-2 px-5 mt-5">
-		  <input class="btn btn-primary" type="submit" value="Iniciar Sesion">
+	<!-- Top Navigation Bar -->
+	<nav class="navbar">
+		<div class="navbar-container">
+			<div class="navbar-left">
+				<h2 class="navbar-title">MovieApp</h2>
+			</div>
 		</div>
-	</form>
-	
-	<form th:action="@{/user/registro}" method="get">
-		<div class="d-grid gap-2 px-5 mt-2 mb-5">
-			  <input class="btn btn-primary" type="submit" value="Registro">
-		  </div>
-	</form>
- 	<div th:if="${correcto}">
- 		<div class="alert alert-danger" role="alert">
-		 	Correo o contraseñas incorrectos
-		</div>
- 	</div>
- </div>
-</div>
-</div>
+	</nav>
 
-	<h3 class="text-center mt-5">Alejandro Fernández Carreras</h3>
+	<!-- Main Content Area -->
+	<div class="main-content">
+		<div class="login-container">
+			<div class="login-card">
+				<h1 class="login-title">Login Usuario</h1>
+				
+				<form th:action="@{/user/logueado}" th:object="${usu}" method="get" class="login-form">
+					<div class="form-group">
+						<input type="text" th:field="*{mail}" placeholder="Email..." class="login-input" required>
+					</div>
+					
+					<div class="form-group">
+						<input type="password" th:field="*{pass}" placeholder="Password..." class="login-input" required>
+					</div>
+
+					<button type="submit" class="btn btn-primary login-btn">Iniciar Sesión</button>
+				</form>
+				
+				<form th:action="@{/user/registro}">
+					<button type="submit" class="btn btn-primary login-btn" >Registro</button>
+				</form>
+				
+				<div th:if="${correcto}" class="alert alert-danger mt-3">
+					Correo o contraseñas incorrectos
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<h3>Carolina Moraga Ponce</h3>
+	</footer>
 	
 </body>
 </html>

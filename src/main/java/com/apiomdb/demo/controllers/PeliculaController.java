@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,13 +31,16 @@ public class PeliculaController {
 	
 	@Autowired
 	private Gson gson;
+	
 	@Autowired
 	private PeticionGetExternalmpl peticion;
 	
 	@Autowired 
 	private IUsuarioService serviceUsuario;
+	
 	@Autowired 
 	private IPeliculaService servicePelicula;
+	
 	@Autowired
 	private IUsuarioPeliculaService serviceUsuarioPelicula;
 	
@@ -112,7 +113,6 @@ public class PeliculaController {
 		    
 			siguientePantalla="redirect:buscar";
 		}
-		//return siguientePantalla;
 	
 		model.addAttribute("pelicula", peli);
 		model.addAttribute("usuario", usu);
@@ -254,11 +254,10 @@ public class PeliculaController {
 	        return "redirect:../user/registro";
 	    }
 
-	    // usuarioActual como emisor(usuario), receptor distinto de usuarioNone
-	    Usuario receptorVacio = serviceUsuario.findOne(UsuarioNone.RECEPTOR_VACIO_MAIL);
-
+	    Usuario receptorVacio = serviceUsuario.findOne(UsuarioNone.RECEPTOR_VACIO_MAIL); 
+    
 	    List<UsuarioPelicula> relaciones = serviceUsuarioPelicula
-	            .findByUsuarioAndReceptor(usu1.getMail(), receptorVacio.getMail());
+	            .findByUsuarioAndReceptorNot(usu1.getMail(), receptorVacio.getMail());
 
 	    model.addAttribute("usuario", usu1);
 	    model.addAttribute("relaciones", relaciones);

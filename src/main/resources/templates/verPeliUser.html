@@ -1,133 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
-<title th:text="${titulo}">Insert title here</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-	
-			<style>
-				.rating {
-				    direction: rtl;
-				    unicode-bidi: bidi-override;
-				    font-size: 2rem;
-				    display: flex;
-				}
-				.rating input {
-				    display: none;
-				}
-				.rating label {
-				    color: #ccc;
-				    cursor: pointer;
-				    padding: 0 2px;
-				}
-				.rating input:checked ~ label,
-				.rating label:hover,
-				.rating label:hover ~ label {
-				    color: gold;
-				}
-			</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${titulo}">Buscador de Películas</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}" />
 </head>
 <body>
-<!-- Menú superior con buscador -->
-	<div class="row justify-content-center align-items-start mt-5 mb-4">
-		<div class="col-2">
-			<form th:action="@{/peli/verpeli}" th:object="${pelicula}" th:method="get">
-				<div>
-					<h3 class="mb-2">Introduce titulo</h3>
-					<div>
-						<input type="text" th:field="*{Title}"/> 
-					</div>
-				</div>
-				<div>
-					<div>
-						<input class="mt-2 text-center" type="submit" value="Buscar Pelicula"/>
-					</div>
-				</div>
-	
-			</form>
-		</div>
-	</div>
-	
-	<div class="text-center">
-		<form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
-			<input class="btn btn-dark mt-4" type="submit" value="Lista de Peliculas"/>	
-		</form>
-		
-		<!-- Botón "Películas compartidas" -->
-		<form th:action="@{/peli/peliculasCompartidas}" th:object="${usuario}" th:method="get">
-			<input class="btn btn-dark mt-4" type="submit" value="Películas Compartidas"/>	
-		</form>
-		
-		<!-- Botón "Películas enviadas" -->
-		<form th:action="@{/peli/peliculasEnviadas}" th:object="${usuario}" th:method="get">
-			<input class="btn btn-dark mt-4" type="submit" value="Películas Enviadas"/>	
-		</form>
-	</div>
-
-<!-- El siguiente contenedor solo se verá en caso de que se haya buscado una película previamente -->
-
-	<div class="container" th:if="${pelicula.Title!=null}">
-        <div class="row justify-content-center align-items-start mt-2 border border-dark shadow-lg border-4 rounded pb-4">
-            <div class="col-4 mt-5">
-                <img class="img-fluid"  th:src="${pelicula.Poster}">
+    <!-- Menú superior -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Barra de búsqueda -->
+            <div class="navbar-left">
+                <form th:action="@{/peli/verpeli}" th:object="${pelicula}" th:method="get" class="search-form">
+                    <input type="text" th:field="*{Title}" placeholder="Buscar película..." class="search-input" />
+                    <button type="submit" class="search-btn">Buscar</button>
+                </form>
             </div>
-            <div class="col-6 mt-5">
-            	<h1 class="text-center"> <span th:text="${pelicula.Title}" ></span> </h1>
-                <h1 class="mt-5">Director: <span th:text="${pelicula.director}" ></span></h1>
-                <h1 class="my-4">Año: <span th:text="${pelicula.year}" ></span></h1>
-                <h1 class="mt-4">Duración: <span th:text="${pelicula.runtime}" ></span></h1>
-                
-                           	
-            	<!-- RatingBar con 5 estrellas -->
-				<form th:action="@{/peli/guardarPeliUsuario}" th:method="get">
 
-			    <h1 class="mt-4 d-flex align-items-center">
-			        Valoración:
-			
-			        <div class="rating ms-3">
-			            <input type="radio" id="star5" name="rating" value="5" onclick="habilitarGuardar()" />
-			            <label for="star5">★</label>
-			
-			            <input type="radio" id="star4" name="rating" value="4" onclick="habilitarGuardar()" />
-			            <label for="star4">★</label>
-			
-			            <input type="radio" id="star3" name="rating" value="3" onclick="habilitarGuardar()" />
-			            <label for="star3">★</label>
-			
-			            <input type="radio" id="star2" name="rating" value="2" onclick="habilitarGuardar()" />
-			            <label for="star2">★</label>
-			
-			            <input type="radio" id="star1" name="rating" value="1" onclick="habilitarGuardar()" />
-			            <label for="star1">★</label>
-			        </div>
-			    </h1>
-			
-			    <div class="text-center">
-			        <input id="btnGuardar" class="btn btn-dark mt-5" type="submit" value="Guardar Pelicula" disabled/>
-			    </div>
-			</form>
-			    
-			<div class="text-center">
-			    <!-- Botón "Enviar a un amigo" -->
-			    <form th:action="@{/peli/enviarAmigo}" th:method="get">
-			        <input class="btn btn-success mt-3" type="submit" value="Enviar a un Amigo"/>
-			    </form>
-			</div>
+            <!-- Botones -->
+            <div class="navbar-right">
+                <form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Mi Lista" class="nav-btn" />
+                </form>
+                <form th:action="@{/peli/peliculasCompartidas}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Compartidas" class="nav-btn" />
+                </form>
+                <form th:action="@{/peli/peliculasEnviadas}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Enviadas" class="nav-btn" />
+                </form>
+            </div>
+        </div>
+    </nav>
 
-				
-			</div>
+    <!-- Movie Detail Card (Only shows if a movie is selected) -->
+    <div class="main-content" th:if="${pelicula.Title!=null}">
+        <div class="movie-card">
+            <!-- Poster -->
+            <div class="movie-poster">
+                <img th:src="${pelicula.Poster}" alt="Movie Poster" class="poster-img" />
+            </div>
+
+            <!-- Informacion -->
+            <div class="movie-info">
+                <h1 class="movie-title" th:text="${pelicula.Title}"></h1>
+
+                <div class="info-item">
+                    <span class="label">Director:</span>
+                    <span th:text="${pelicula.director}"></span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Año:</span>
+                    <span th:text="${pelicula.year}"></span>
+                </div>
+
+                <div class="info-item">
+                    <span class="label">Duración:</span>
+                    <span th:text="${pelicula.runtime}"></span>
+                </div>
+
+                <!-- Rating System -->
+                <form th:action="@{/peli/guardarPeliUsuario}" th:method="get" class="rating-form">
+                    <div class="rating-container">
+                        <span class="rating-label">Valoración:</span>
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5" onchange="habilitarGuardar()" />
+                            <label for="star5">★</label>
+
+                            <input type="radio" id="star4" name="rating" value="4" onchange="habilitarGuardar()" />
+                            <label for="star4">★</label>
+
+                            <input type="radio" id="star3" name="rating" value="3" onchange="habilitarGuardar()" />
+                            <label for="star3">★</label>
+
+                            <input type="radio" id="star2" name="rating" value="2" onchange="habilitarGuardar()" />
+                            <label for="star2">★</label>
+
+                            <input type="radio" id="star1" name="rating" value="1" onchange="habilitarGuardar()" />
+                            <label for="star1">★</label>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <input id="btnGuardar" type="submit" value="Guardar Película" class="btn btn-primary" disabled />
+
+                        <form th:action="@{/peli/enviarAmigo}" th:method="get" class="inline-form">
+                            <input type="submit" value="Enviar a un Amigo" class="btn btn-secondary" />
+                        </form>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-		
-	<h3 class="text-center mt-5">Javier Carrascal Morales</h3>
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
 
-	<script>
-		function habilitarGuardar(){
-		    document.getElementById("btnGuardar").disabled = false;
-		}
-	</script>
-	
-	
+    <script>
+        function habilitarGuardar() {
+            document.getElementById("btnGuardar").disabled = false;
+        }
+    </script>
 </body>
 </html>

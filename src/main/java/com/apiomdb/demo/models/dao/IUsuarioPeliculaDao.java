@@ -17,4 +17,8 @@ public interface IUsuarioPeliculaDao {
     public List<UsuarioPelicula> findByReceptor(String receptorMail);
 
     public List<UsuarioPelicula> findByUsuarioAndReceptor(String usuarioMail, String receptorMail);
+
+    //Not --> que no busque por el receptor entregado por parámetro
+    public List<UsuarioPelicula> findByUsuarioAndReceptorNot(String usuarioMail, String receptorMail);
+
 }
