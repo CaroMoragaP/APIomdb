@@ -1,6 +1,7 @@
 package com.apiomdb.demo.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import com.apiomdb.demo.service.IUsuarioService;
 import com.apiomdb.demo.service.impl.PeticionGetExternalmpl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 @Controller
 @RequestMapping("/peli")
@@ -49,32 +52,91 @@ public class PeliculaController {
 	
 	@Autowired 
 	private UsuarioComp usu;
-		
+
+//para ingresar al buscardor (página de bienvenida)
 	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
 	public String crearFormulario(Usuario usu, Model model) {
 		Usuario usuario = usu;
 		model.addAttribute("pelicula", peli);
 		model.addAttribute("usuario", usuario);
-		return "verPeliUser"; 
+		return "buscarPeliculas"; 
 	}
 	
+//para buscar un listado de películas (por título)
+	@RequestMapping(value = "/buscarPeliculas", method = RequestMethod.GET)
+	public ModelAndView buscarListadoOMDB(
+			Usuario usu,
+	        @RequestParam(value = "Title") String titulo,
+	        @RequestParam(value = "page", defaultValue = "1") int page) throws IOException {
+	    
+	    String busqueda = "http://www.omdbapi.com/?apikey=dcdf1c79";
+	    
+	    if (titulo.contains(" ")) {
+	        titulo = titulo.replace(' ', '+');
+	    }
+	    
+	    busqueda += "&s=" + titulo + "&page=" + page;
+	    
+	    ModelAndView mav = new ModelAndView("buscarPeliculas");
+	    Usuario usuario = usu;
+	    
+	    String texto = peticion.sendGET(busqueda);
+	    System.out.println(texto);
+	    
+	    // Parsear la respuesta JSON que contiene el listado
+	    JsonObject jsonResponse = gson.fromJson(texto, JsonObject.class);
+	    
+	    List<Pelicula> peliculas = new ArrayList<>();
+	    int totalResults = 0;
+	    boolean success = false;
+	    
+	    if (jsonResponse.has("Response") && jsonResponse.get("Response").getAsString().equals("True")) {
+	        success = true;
+	        totalResults = jsonResponse.get("totalResults").getAsInt();
+	        
+	        JsonArray searchResults = jsonResponse.getAsJsonArray("Search");
+	        for (int i = 0; i < searchResults.size(); i++) {
+	            JsonObject movieJson = searchResults.get(i).getAsJsonObject();
+	            Pelicula pelicula = new Pelicula();
+	            pelicula.setTitle(movieJson.get("Title").getAsString());
+	            pelicula.setYear(movieJson.get("Year").getAsString());
+	            pelicula.setPoster(movieJson.get("Poster").getAsString());
+	            pelicula.setImdbID(movieJson.get("imdbID").getAsString());
+	            peliculas.add(pelicula);
+	        }
+	    }
+	    
+	    // Calcular paginación
+	    int totalPages = (int) Math.ceil(totalResults / 10.0);
+	    
+	    mav.addObject("usuario", usuario);
+	    mav.addObject("peliculas", peliculas);
+	    mav.addObject("titulo", titulo);
+	    mav.addObject("currentPage", page);
+	    mav.addObject("totalPages", totalPages);
+	    mav.addObject("totalResults", totalResults);
+	    mav.addObject("success", success);
+	    
+	    return mav;
+	}
+//para buscar una de las películas de la lista (por id imdb)
 	@RequestMapping(value = "/verpeli", method = RequestMethod.GET)
-	public ModelAndView buscarOMDB(@RequestParam(value = "Title") String titulo) throws IOException {
+	public ModelAndView buscarOMDB(@RequestParam(value = "imdbID") String imdbID) throws IOException {
 		String busqueda="http://www.omdbapi.com/?apikey=dcdf1c79";
-		if (titulo.contains(" ")) {
-            titulo = titulo.replace(' ', '+');
-        }
-		busqueda+="&t=" + titulo;
+		busqueda+="&i=" + imdbID + "&plot=full";
+		
 		ModelAndView mav= new ModelAndView("verPeliUser");
 		Usuario usuario = new Usuario();
 		usuario.copia(usu);
+		
 		String texto= peticion.sendGET(busqueda);
 		System.out.println(texto);
-		//Una vez obtengo la respuesta en JSON lo transformo en un objeto de tipo MOVIE
-		//GSON es una librería para transformar Json a objetos y al revés.
-		//Para utilizarla hay que pasarle el texto(json) y el tipo de objeto al que queremos transformarlo
 		
+		//obtener pelicula completa, con todos los detalle
 	    Pelicula pelicula = gson.fromJson(texto, Pelicula.class);
+	    
+	 // IMPORTANTE: Asegúrate de que la película tenga el imdbID
+	    System.out.println("ImdbID de la película: " + pelicula.getImdbID());
 	    
 	    //Hago la traduccion entre peliculacomp y pelicula
 	    peli.copia(pelicula);
@@ -85,6 +147,7 @@ public class PeliculaController {
 		return mav;
 	}
 	
+//para guardar la película, incorporando el ranking dado por el usuario
 	@RequestMapping(value = "/guardarPeliUsuario", method = RequestMethod.GET)
 	public String guardarUsuario(@RequestParam("rating") Integer ranking, Model model) {
 		
@@ -277,18 +340,21 @@ public class PeliculaController {
 	        return "redirect:../user/registro";
 	    }
 
+	    // Usar directamente la película que está en sesión
+	    Pelicula pelicula = new Pelicula();
+	    pelicula.copia(peli);
+
 	    // Lista de usuarios registrados (amigos posibles)
 	    List<Usuario> usuarios = serviceUsuario.findAll();
 
-	    // Eliminar el propio usuarioActual y el usuarioNone de la lista
 	    usuarios.removeIf(u -> u.getMail().equals(usu1.getMail()) ||
 	                           u.getMail().equals(UsuarioNone.RECEPTOR_VACIO_MAIL));
 
 	    model.addAttribute("usuario", usu1);
 	    model.addAttribute("usuarios", usuarios);
-	    model.addAttribute("pelicula", peli);     // peli actual en sesión
+	    model.addAttribute("pelicula", pelicula);
 
-	    return "enviarAmigo";                     // nueva vista o modal
+	    return "enviarAmigo";
 	}
 	
 	//POST: guardar relación y volver a verPeliUser

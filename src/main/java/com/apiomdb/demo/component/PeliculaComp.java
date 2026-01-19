@@ -63,12 +63,12 @@ import com.apiomdb.demo.models.entity.Pelicula;
 			Runtime = runtime;
 		}
 
-		public String getImdbId() {
+		public String getImdbID() {
 			return imdbID;
 		}
 
-		public void setImdbId(String imdbId) {
-			this.imdbID = imdbId;
+		public void setImdbID(String imdbID) {
+			this.imdbID = imdbID;
 		}
 
 		public String getPoster() {
@@ -79,13 +79,13 @@ import com.apiomdb.demo.models.entity.Pelicula;
 			Poster = poster;
 		}
 
-		public PeliculaComp(String title, String director, String year, String runtime, String imdbId, String poster) {
+		public PeliculaComp(String title, String director, String year, String runtime, String imdbID, String poster) {
 			super();
 			Title = title;
 			Director = director;
 			Year = year;
 			Runtime = runtime;
-			imdbID = imdbId;
+			imdbID = imdbID;
 			Poster = poster;
 		}
 		

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}" />
+    <style>
+        .search-results {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .results-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .results-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .movie-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .movie-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .movie-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .movie-item-info {
+            padding: 1rem;
+        }
+
+        .movie-item-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.3;
+            min-height: 2.6rem;
+        }
+
+        .movie-item-year {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #666;
+        }
+
+        .no-results h2 {
+            margin-bottom: 1rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            background: white;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pagination a:hover {
+            background: #f0f0f0;
+        }
+
+        .pagination .current-page {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .back-search {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .back-search a {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .back-search a:hover {
+            background: #5a6268;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #333;
+        }
+
+        .welcome-message h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-message p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .movie-item img {
+                height: 225px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú superior -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Barra de búsqueda -->
+            <div class="navbar-left">
+                <form th:action="@{/peli/buscarPeliculas}" method="get" class="search-form">
+                    <input type="text" name="Title" th:value="${titulo}" placeholder="Buscar película..." class="search-input" />
+                    <button type="submit" class="search-btn">Buscar</button>
+                </form>
+            </div>
+
+            <!-- Botones -->
+            <div class="navbar-right">
+                <form th:action="@{/peli/listarPelisUsuario}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Mi Lista" class="nav-btn" />
+                </form>
+                <form th:action="@{/peli/peliculasCompartidas}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Compartidas" class="nav-btn" />
+                </form>
+                <form th:action="@{/peli/peliculasEnviadas}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Enviadas" class="nav-btn" />
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resultados de búsqueda -->
+    <div class="search-results">
+        <!-- Mensaje de bienvenida cuando no se ha buscado nada aún -->
+        <div class="welcome-message" th:if="${titulo == null}">
+            <h1>Buscador de Películas</h1>
+            <p>Utiliza el buscador de arriba para encontrar películas</p>
+        </div>
+
+        <!-- Cuando hay resultados -->
+        <div th:if="${success}">
+            <div class="results-header">
+                <h1>Resultados para: <span th:text="${titulo}"></span></h1>
+                <p class="results-count">
+                    Se encontraron <strong th:text="${totalResults}"></strong> resultados
+                </p>
+            </div>
+
+            <div class="movies-grid">
+                <div class="movie-item" th:each="pelicula : ${peliculas}" 
+                	th:data-imdbid="${pelicula.imdbID}"
+   					onclick="window.location.href='/peli/verpeli?imdbID=' + this.dataset.imdbid">
+                    <img th:src="${pelicula.Poster != 'N/A' ? pelicula.Poster : '/images/no-poster.png'}" 
+                         th:alt="${pelicula.Title}" />
+                    <div class="movie-item-info">
+                        <div class="movie-item-title" th:text="${pelicula.Title}"></div>
+                        <div class="movie-item-year" th:text="${pelicula.Year}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination" th:if="${totalPages > 1}">
+                <!-- Botón anterior -->
+                <a th:href="@{/peli/buscarPeliculas(Title=${titulo}, page=${currentPage - 1})}"
+                   th:classappend="${currentPage == 1} ? 'disabled' : ''">
+                    ← Anterior
+                </a>
+
+                <!-- Páginas -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <!-- Mostrar solo algunas páginas alrededor de la actual -->
+                    <a th:if="${i == 1 || i == totalPages || (i >= currentPage - 2 && i <= currentPage + 2)}"
+                       th:href="@{/peli/buscarPeliculas(Title=${titulo}, page=${i})}"
+                       th:classappend="${i == currentPage} ? 'current-page' : ''"
+                       th:text="${i}">
+                    </a>
+                    <!-- Puntos suspensivos -->
+                    <span th:if="${i == 2 && currentPage > 4}">...</span>
+                    <span th:if="${i == totalPages - 1 && currentPage < totalPages - 3}">...</span>
+                </th:block>
+
+                <!-- Botón siguiente -->
+                <a th:href="@{/peli/buscarPeliculas(Title=${titulo}, page=${currentPage + 1})}"
+                   th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+                    Siguiente →
+                </a>
+            </div>
+        </div>
+
+        <!-- Cuando no hay resultados -->
+        <div class="no-results" th:if="${titulo != null && !success}">
+            <h2>No se encontraron resultados</h2>
+            <p>No se encontraron películas con el título "<span th:text="${titulo}"></span>"</p>
+            <p>Intenta con otro término de búsqueda</p>
+        </div>
+
+        <!-- Botón para volver (solo si se ha hecho una búsqueda) -->
+        <div class="back-search" th:if="${titulo != null}">
+            <a th:href="@{/peli/buscarPeliculas}">← Nueva búsqueda</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
+</body>
+</html>

@@ -72,8 +72,8 @@ public class Pelicula {
 		return imdbID;
 	}
 
-	public void setImdbID(String imdbId) {
-		this.imdbID = imdbId;
+	public void setImdbID(String imdbID) {
+		this.imdbID = imdbID;
 	}
 
 	public String getPoster() {
@@ -98,7 +98,7 @@ public class Pelicula {
 	public void copia(PeliculaComp p2) {
 
 		this.Director=p2.getDirector();
-		this.imdbID=p2.getImdbId();
+		this.imdbID=p2.getImdbID();
 		this.Poster=p2.getPoster();
 		this.Runtime=p2.getRuntime();
 		this.Title=p2.getTitle();

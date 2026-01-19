@@ -12,7 +12,7 @@
         <div class="navbar-container">
             <!-- Barra de búsqueda -->
             <div class="navbar-left">
-                <form th:action="@{/peli/verpeli}" th:object="${pelicula}" th:method="get" class="search-form">
+                <form th:action="@{/peli/buscarPeliculas}" th:object="${pelicula}" th:method="get" class="search-form">
                     <input type="text" th:field="*{Title}" placeholder="Buscar película..." class="search-input" />
                     <button type="submit" class="search-btn">Buscar</button>
                 </form>
@@ -85,12 +85,12 @@
                     <!-- Action Buttons -->
                     <div class="action-buttons">
                         <input id="btnGuardar" type="submit" value="Guardar Película" class="btn btn-primary" disabled />
-
-                        <form th:action="@{/peli/enviarAmigo}" th:method="get" class="inline-form">
-                            <input type="submit" value="Enviar a un Amigo" class="btn btn-secondary" />
-                        </form>
                     </div>
                 </form>
+                <form th:action="@{/peli/enviarAmigo}" th:method="get" class="inline-form">
+					<input type="hidden" name="imdbID" th:value="${pelicula.imdbID}" />
+					<input type="submit" value="Enviar a un Amigo" class="btn btn-secondary" />
+				</form>
             </div>
         </div>
     </div>
