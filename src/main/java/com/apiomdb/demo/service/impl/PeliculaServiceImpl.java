@@ -21,7 +21,6 @@ public class PeliculaServiceImpl implements IPeliculaService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Pelicula> findAll() {
-		// TODO Auto-generated method stub
 		return peliDao.findAll();
 	}
 

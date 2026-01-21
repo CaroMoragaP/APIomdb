@@ -19,6 +19,7 @@ import com.apiomdb.demo.models.entity.Pelicula;
 import com.apiomdb.demo.models.entity.Usuario;
 import com.apiomdb.demo.models.entity.UsuarioPelicula;
 import com.apiomdb.demo.models.entity.UsuarioPeliculaId;
+import com.apiomdb.demo.service.IActividadService;
 import com.apiomdb.demo.service.IPeliculaService;
 import com.apiomdb.demo.service.IUsuarioPeliculaService;
 import com.apiomdb.demo.service.IUsuarioService;
@@ -52,6 +53,9 @@ public class PeliculaController {
 	
 	@Autowired 
 	private UsuarioComp usu;
+	
+	@Autowired
+	private IActividadService serviceActividad;
 
 //para ingresar al buscardor (página de bienvenida)
 	@RequestMapping(value = "/buscar", method = RequestMethod.GET)
@@ -61,6 +65,8 @@ public class PeliculaController {
 		model.addAttribute("usuario", usuario);
 		return "buscarPeliculas"; 
 	}
+	
+
 	
 //para buscar un listado de películas (por título)
 	@RequestMapping(value = "/buscarPeliculas", method = RequestMethod.GET)

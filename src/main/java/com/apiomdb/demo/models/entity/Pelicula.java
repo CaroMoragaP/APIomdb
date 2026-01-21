@@ -35,6 +35,16 @@ public class Pelicula {
 	public Pelicula() {
 		super();
 	}
+	
+	public Pelicula(String title, String director, String year, String runtime, String imdbId, String poster) {
+		super();
+		Title = title;
+		Director = director;
+		Year = year;
+		Runtime = runtime;
+		imdbID = imdbId;
+		Poster = poster;
+	}
 
 	public String getTitle() {
 		return Title;
@@ -84,19 +94,8 @@ public class Pelicula {
 		Poster = poster;
 	}
 
-	public Pelicula(String title, String director, String year, String runtime, String imdbId, String poster) {
-		super();
-		Title = title;
-		Director = director;
-		Year = year;
-		Runtime = runtime;
-		imdbID = imdbId;
-		Poster = poster;
-		
-	}
 	
 	public void copia(PeliculaComp p2) {
-
 		this.Director=p2.getDirector();
 		this.imdbID=p2.getImdbID();
 		this.Poster=p2.getPoster();
