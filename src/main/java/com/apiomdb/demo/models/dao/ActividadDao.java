@@ -43,6 +43,12 @@ public class ActividadDao implements IActividadDao{
 	public void delete(int id) {
 		em.remove(findOne(id));
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Actividad> findAllOrderByFechaDesc() {
+		return em.createQuery("select a from Actividad a order by a.fecha desc", Actividad.class).getResultList();
+	}
 	
 }
 

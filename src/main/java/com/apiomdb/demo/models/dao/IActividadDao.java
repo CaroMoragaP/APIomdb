@@ -8,6 +8,8 @@ import com.apiomdb.demo.models.entity.Actividad;
 public interface IActividadDao {
 
 	public List<Actividad> findAll();
+	
+	public List<Actividad> findAllOrderByFechaDesc();
 
 	public void save(Actividad act);
 	

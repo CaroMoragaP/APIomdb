@@ -1,6 +1,7 @@
 package com.apiomdb.demo.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.apiomdb.demo.component.PeliculaComp;
 import com.apiomdb.demo.component.UsuarioComp;
 import com.apiomdb.demo.config.UsuarioNone;
+import com.apiomdb.demo.models.entity.Actividad;
+import com.apiomdb.demo.models.entity.Actividad.TipoActividad;
 import com.apiomdb.demo.models.entity.Pelicula;
 import com.apiomdb.demo.models.entity.Usuario;
 import com.apiomdb.demo.models.entity.UsuarioPelicula;
@@ -65,7 +68,26 @@ public class PeliculaController {
 		model.addAttribute("usuario", usuario);
 		return "buscarPeliculas"; 
 	}
-	
+
+	@RequestMapping(value = "/muroActividad", method = RequestMethod.GET)
+	public String muroActividad(Model model) {
+		
+		Usuario usuario = new Usuario();
+		usuario.copia(usu);
+		Usuario usu1 = serviceUsuario.findOne(usuario.getMail());
+		
+		if(usu1 == null) {
+			return "redirect:../user/registro";
+		}
+		
+		// Obtener todas las actividades ordenadas por fecha descendente
+		List<Actividad> actividades = serviceActividad.findAllOrderByFechaDesc();
+		
+		model.addAttribute("usuario", usu1);
+		model.addAttribute("actividades", actividades);
+		
+		return "muroActividad";
+	}
 
 	
 //para buscar un listado de películas (por título)
@@ -179,6 +201,17 @@ public class PeliculaController {
 		    		   	    
 		    UsuarioPelicula relacion = new UsuarioPelicula(id,usu1,receptorVacio, p, ranking);
 		    serviceUsuarioPelicula.save(relacion);
+		    
+		 //Guardar actividad GUARDAR_PELICULA
+		    Actividad actividad = new Actividad(
+		    		TipoActividad.GUARDAR_PELICULA,
+		    		usu1,
+		    		receptorVacio,
+		    		p,
+		    		ranking,
+		    		LocalDateTime.now()
+		    );
+		    serviceActividad.save(actividad);
 		    
 			siguientePantalla="redirect:buscar";
 		}
@@ -307,6 +340,18 @@ public class PeliculaController {
 	        UsuarioPelicula relacion = relaciones.get(0);
 	        relacion.setRankingUsuario(rating);
 	        serviceUsuarioPelicula.save(relacion);
+	        
+	     //Guardar actividad PUNTUAR_PELICULA
+	        Actividad actividad = new Actividad(
+	        		TipoActividad.PUNTUAR_PELICULA,
+	        		usu1,
+	        		relacion.getUsuario(), // el que envió originalmente
+	        		relacion.getPelicula(),
+	        		(int) rating,
+	        		LocalDateTime.now()
+	        );
+	        serviceActividad.save(actividad);
+	        
 	    }
 
 	    return "redirect:/peli/peliculasCompartidas";
@@ -404,11 +449,22 @@ public class PeliculaController {
 	    );
 
 	    serviceUsuarioPelicula.save(relacion);
+	    
+	 // Guardar Actividad COMPARTIR_PELICULA
+	    Actividad actividad = new Actividad(
+	    		TipoActividad.COMPARTIR_PELICULA,
+	    		usuEmisor,
+	    		receptor,
+	    		p,
+	    		0, // ranking en 0 cuando se comparte
+	    		LocalDateTime.now()
+	    );
+	    serviceActividad.save(actividad);
 
 	    // Mensaje de confirmación (puedes usar atributo de modelo + alert en verPeliUser.html)
 	    model.addAttribute("mensaje", "Película enviada correctamente");
 
-	    return "redirect:/peli/verpeli?Title=" + p.getTitle();
+	    return "redirect:/peli/verpeli?imdbID=" + p.getImdbID();
 	}
 
 

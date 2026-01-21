@@ -36,4 +36,9 @@ public class ActividadServiceImpl implements IActividadService{
 		actividadDao.delete(id);		
 	}
 
+	@Override
+	public List<Actividad> findAllOrderByFechaDesc() {
+		return actividadDao.findAllOrderByFechaDesc();
+	}
+
 }
