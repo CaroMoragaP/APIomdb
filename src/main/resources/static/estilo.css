@@ -511,6 +511,163 @@ body {
             font-size: 1.2rem;
             color: #666;
         }
+        
+        .btn-logout {
+            background-color: #e74c3c;
+            color: var(--white);
+            border-color: #e74c3c;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+            color: var(--white);
+        }
+
+/* Estilos específicos para el muro de actividad */
+        .activity-feed {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .feed-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid var(--border-color);
+        }
+
+        .feed-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feed-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .activity-card {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-poster {
+            flex-shrink: 0;
+        }
+
+        .activity-poster img {
+            width: 120px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .activity-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .activity-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+        }
+
+        .icon-share {
+            color: #3498db;
+        }
+
+        .icon-rate {
+            color: #f39c12;
+        }
+
+        .icon-save {
+            color: #27ae60;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .activity-user {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .activity-action {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .activity-movie-title {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin: 0.5rem 0;
+        }
+
+        .activity-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .activity-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-bg);
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .activity-time {
+            font-style: italic;
+        }
+
+        .no-activities {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: var(--white);
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+        }
+
+        .no-activities h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .no-activities p {
+            color: #666;
+            font-size: 1.1rem;
+        }
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -577,5 +734,29 @@ body {
     .movie-item img {
     	height: 225px;
     }
+    
+            .activity-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
 
-}
+            .activity-poster img {
+                width: 150px;
+                height: 225px;
+            }
+
+            .activity-footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .feed-header h1 {
+                font-size: 2rem;
+            }
+
+            .activity-feed {
+                padding: 0 1rem;
+            }
+        }

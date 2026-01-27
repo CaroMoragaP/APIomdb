@@ -13,22 +13,17 @@
 <body>
 <nav class="navbar">
         <div class="navbar-container">
-         <div class="navbar-left">
-                <h1 class="navbar-title">
-			    <span th:text="${usuario.nombre}"></span>
-				</h1>
-            </div>
-	        <h1 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
+	        <h2 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
 			    Mis Películas
-			</h1>
-			<h1 class="navbar-title" th:if="${modoCompartidas}">
+			</h2>
+			<h2 class="navbar-title" th:if="${modoCompartidas}">
 			    Películas compartidas para mi
-			</h1>
-            <!-- Botones -->
+			</h2>
+
             <div class="navbar-right">
-	            <div class="text-left mt-4">
-				    <a th:href="@{/peli/buscar}">Volver</a>
-				</div>
+            	<form th:action="@{/peli/buscar}" method="get">
+            		<input type="submit" value="Volver" class="nav-btn">
+            	</form>
             </div>
         </div>
     </nav>

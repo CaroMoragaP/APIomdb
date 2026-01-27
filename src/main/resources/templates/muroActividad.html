@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muro de Actividad - OMDb App</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Muro de Actividad</h2>
+
+            <div class="navbar-right">
+                <form th:action="@{/peli/buscar}" method="get">
+                    <input type="submit" value="Buscar Películas" class="nav-btn" />
+                </form>
+                <form th:action="@{/ranking/cinefilos}" method="get">
+                    <input type="submit" value="Ranking Cinéfilos" class="nav-btn" />
+                </form>
+                <form th:action="@{/user/login}" method="get">
+                    <input type="submit" value="Cerrar Sesión" class="nav-btn btn-logout" />
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Feed de actividades -->
+    <div class="activity-feed">
+        <div class="feed-header">
+            <h1>🎬 Actividad Reciente</h1>
+            <p>Descubre qué están viendo y compartiendo los cinéfilos</p>
+        </div>
+
+        <!-- Mostrar actividades si existen -->
+        <div th:if="${!actividades.isEmpty()}">
+            <div class="activity-card" th:each="actividad : ${actividades}">
+                <!-- Poster de la película -->
+                <div class="activity-poster">
+                    <img th:src="${actividad.pelicula.poster != 'N/A' ? actividad.pelicula.poster : '/images/no-poster.png'}" 
+                         th:alt="${actividad.pelicula.title}" />
+                </div>
+
+                <!-- Contenido de la actividad -->
+                <div class="activity-content">
+                    <div class="activity-header">
+                        <!-- Icono según tipo de actividad -->
+                        <span class="activity-icon" 
+                              th:classappend="${actividad.tipoActividad.name() == 'COMPARTIR_PELICULA'} ? 'icon-share' : 
+                                             (${actividad.tipoActividad.name() == 'PUNTUAR_PELICULA'} ? 'icon-rate' : 'icon-save')">
+                            <span th:if="${actividad.tipoActividad.name() == 'COMPARTIR_PELICULA'}">📤</span>
+                            <span th:if="${actividad.tipoActividad.name() == 'PUNTUAR_PELICULA'}">⭐</span>
+                            <span th:if="${actividad.tipoActividad.name() == 'GUARDAR_PELICULA'}">💾</span>
+                        </span>
+
+                        <div class="activity-text">
+                            <!-- Texto de la actividad según el tipo -->
+                            
+                            <!-- COMPARTIR_PELICULA -->
+                            <div th:if="${actividad.tipoActividad.name() == 'COMPARTIR_PELICULA'}" class="activity-action">
+                                <span class="activity-user" th:text="${actividad.usuario.nombre}"></span>
+                                ha compartido 
+                                <span class="activity-movie-title" th:text="${actividad.pelicula.title}"></span>
+                                con 
+                                <span class="activity-user" th:text="${actividad.receptor.nombre}"></span>
+                            </div>
+
+                            <!-- PUNTUAR_PELICULA -->
+                            <div th:if="${actividad.tipoActividad.name() == 'PUNTUAR_PELICULA'}" class="activity-action">
+                                <span class="activity-user" th:text="${actividad.usuario.nombre}"></span>
+                                ha puntuado 
+                                <span class="activity-movie-title" th:text="${actividad.pelicula.title}"></span>
+                                con 
+                                <span class="activity-rating">
+                                    <span th:text="${actividad.ranking}"></span>
+                                    <span>★</span>
+                                </span>
+                            </div>
+
+                            <!-- GUARDAR_PELICULA -->
+                            <div th:if="${actividad.tipoActividad.name() == 'GUARDAR_PELICULA'}" class="activity-action">
+                                <span class="activity-user" th:text="${actividad.usuario.nombre}"></span>
+                                <span class="activity-movie-title" th:text="${actividad.pelicula.title}"></span>
+                                <span th:if="${actividad.ranking > 0}">
+                                    con 
+                                    <span class="activity-rating">
+                                        <span th:text="${actividad.ranking}"></span>
+                                        <span>★</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer con información adicional -->
+                    <div class="activity-footer">
+                        <div class="activity-time">
+                            <span th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy HH:mm')}"></span>
+                        </div>
+                        <div class="activity-movie-year">
+                            <span th:text="${actividad.pelicula.year}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje cuando no hay actividades -->
+        <div class="no-activities" th:if="${actividades.isEmpty()}">
+            <h2>No hay actividades recientes</h2>
+            <p>Sé el primero en compartir, puntuar o guardar películas</p>
+            <div style="margin-top: 2rem;">
+                <a th:href="@{/peli/buscar}" class="btn btn-primary">Buscar Películas</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
+</body>
+</html>

@@ -9,6 +9,13 @@
 	<!-- Top Navigation Bar -->
 	<nav class="navbar">
 		<div class="navbar-container">
+		<h2 class="navbar-title" th:text="${peli.title}"></h2>
+		
+		<div class="navbar-right">
+	            <form th:action="@{/peli/listarPelisUsuario}" method="get">
+            		<input type="submit" value="Volver" class="nav-btn">
+            	</form>
+            </div>
 		</div>
 	</nav>
 
@@ -23,8 +30,7 @@
 
 			<!-- Movie Information -->
 			<div class="movie-info">
-				<h1 class="movie-title" th:text="${peli.title}"></h1>
-				
+		
 				<div class="info-item">
 					<span class="label">Director:</span>
 					<span th:text="${peli.director}"></span>
@@ -52,16 +58,11 @@
 			</div>
 		</div>
 
-
-		<!-- Back Link -->
-		<div class="action-buttons">
-			<a th:href="@{/peli/listarPelisUsuario}" class="btn btn-outline-secondary" style="text-decoration: none;">Volver a Listado</a>
-		</div>
 	</div>
 
 	<!-- Footer -->
 	<footer class="footer">
-		<h3>Carolina Moraga Ponce</h3>
+		<p>Carolina Moraga Ponce</p>
 	</footer>
 </body>
 </html>

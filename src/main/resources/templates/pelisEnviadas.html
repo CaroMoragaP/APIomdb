@@ -10,19 +10,19 @@
 <body>
 <nav class="navbar">
         <div class="navbar-container">
-         <div class="navbar-left">
+         <!--  <div class="navbar-left">
                 <h1 class="navbar-title">
 			    <span th:text="${usuario.nombre}"></span>
 				</h1>
-            </div>
-	        <h1 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
+            </div> -->
+	        <h2 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
 			    Películas enviadas
-			</h1>
+			</h2>
             <!-- Volver -->
             <div class="navbar-right">
-	            <div class="text-center mt-4">
-				    <a th:href="@{/peli/buscar}">Volver</a>
-				</div>
+	            <form th:action="@{/peli/buscar}" method="get">
+            		<input type="submit" value="Volver" class="nav-btn">
+            	</form>
             </div>
         </div>
     </nav>

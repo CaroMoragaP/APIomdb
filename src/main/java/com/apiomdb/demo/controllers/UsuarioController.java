@@ -45,17 +45,18 @@ public class UsuarioController {
 		List<Usuario> usuarios = usuService.findAll();
 		for (Usuario u : usuarios) {
 			if(u.getMail().equals(usuario.getMail()) && u.getPass().equals(usuario.getPass())) {
-				usu.copia(usuario);
+				usu.copia(u);
 				correcto=true;
+				break;
 			}
 		}
 		if(correcto) {
-			model.addAttribute("usuario", usu);
-			model.addAttribute("pelicula", peli);
-			return "verPeliUser";
+			//model.addAttribute("usuario", usu);
+			//model.addAttribute("pelicula", peli);
+			return "redirect:/peli/muroActividad";
 		}else {
-			Usuario usu= new Usuario();
-			model.addAttribute("usu", usu);
+			Usuario usuNuevo = new Usuario();
+			model.addAttribute("usu", usuNuevo);
 			correcto=true;
 			model.addAttribute("correcto",correcto);
 			return "login";

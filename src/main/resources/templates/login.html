@@ -7,16 +7,15 @@
 <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-	<!-- Top Navigation Bar -->
+
 	<nav class="navbar">
 		<div class="navbar-container">
 			<div class="navbar-left">
-				<h2 class="navbar-title">MovieApp</h2>
+				<h2 class="navbar-title">Aplicación de películas</h2>
 			</div>
 		</div>
 	</nav>
 
-	<!-- Main Content Area -->
 	<div class="main-content">
 		<div class="login-container">
 			<div class="login-card">
@@ -34,7 +33,7 @@
 					<button type="submit" class="btn btn-primary login-btn">Iniciar Sesión</button>
 				</form>
 				
-				<form th:action="@{/user/registro}">
+				<form th:action="@{/user/registro}" class="login-form">
 					<button type="submit" class="btn btn-primary login-btn" >Registro</button>
 				</form>
 				
@@ -47,7 +46,7 @@
 
 	<!-- Footer -->
 	<footer class="footer">
-		<h3>Carolina Moraga Ponce</h3>
+		<p>Carolina Moraga Ponce</p>
 	</footer>
 	
 </body>

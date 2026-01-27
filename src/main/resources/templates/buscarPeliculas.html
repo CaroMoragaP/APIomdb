@@ -29,6 +29,9 @@
                 <form th:action="@{/peli/peliculasEnviadas}" th:object="${usuario}" th:method="get">
                     <input type="submit" value="Enviadas" class="nav-btn" />
                 </form>
+                <form th:action="@{/peli/muroActividad}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Muro" class="search-btn" />
+                </form>
             </div>
         </div>
     </nav>
