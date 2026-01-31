@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking Cinéfilos</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}" />
+    <style>
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Ranking de Cinéfilos</h2>
+        
+        
+        <div class="navbar-right">
+                <form th:action="@{/peli/muroActividad}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Muro" class="search-btn" />
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor del ranking -->
+    <div class="ranking-container">
+        <div class="ranking-header">
+            <h1>Ranking de Cinéfilos</h1>
+            <p>Usuarios ordenados por el promedio de rating IMDb de sus películas guardadas</p>
+        </div>
+
+        <!-- Mostrar tabla si hay usuarios en el ranking -->
+        <div th:if="${!ranking.isEmpty()}">
+            <div class="ranking-table-container">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th class="center">Posición</th>
+                            <th>Usuario</th>
+                            <th class="center">Promedio IMDb</th>
+                            <th class="center">Películas Guardadas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item, iterStat : ${ranking}">
+                            <!-- Posición con medallas para top 3 -->
+                            <td class="ranking-position" 
+                                th:classappend="${iterStat.index == 0} ? 'first' : 
+                                               (${iterStat.index == 1} ? 'second' : 
+                                               (${iterStat.index == 2} ? 'third' : ''))">
+                                <span th:if="${iterStat.index == 0}">🥇</span>
+                                <span th:if="${iterStat.index == 1}">🥈</span>
+                                <span th:if="${iterStat.index == 2}">🥉</span>
+                                <span th:if="${iterStat.index >= 3}" th:text="${iterStat.index + 1}"></span>
+                            </td>
+
+                            <!-- Nombre del usuario -->
+                            <td class="user-name">
+                                <span th:text="${item.usuario.nombre}"></span>
+                            </td>
+
+                            <!-- Promedio IMDb con badge -->
+                            <td style="text-align: center;">
+                                <span class="rating-badge">
+                                    <span th:text="${#numbers.formatDecimal(item.promedioImdb, 1, 2)}"></span>
+                                    <span>⭐</span>
+                                </span>
+                            </td>
+
+                            <!-- Cantidad de películas -->
+                            <td class="movie-count">
+                                <span th:text="${item.cantidadPeliculas}"></span>
+                                <span th:text="${item.cantidadPeliculas == 1} ? ' película' : ' películas'"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Mensaje cuando no hay usuarios en el ranking -->
+        <div class="no-ranking" th:if="${ranking.isEmpty()}">
+            <h2>No hay datos para mostrar</h2>
+            <p>Aún no hay usuarios con películas guardadas que tengan rating IMDb</p>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>Carolina Moraga Ponce</p>
+    </footer>
+</body>
+</html>

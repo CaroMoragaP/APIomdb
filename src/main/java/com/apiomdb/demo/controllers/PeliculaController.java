@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.apiomdb.demo.component.PeliculaComp;
 import com.apiomdb.demo.component.UsuarioComp;
 import com.apiomdb.demo.config.UsuarioNone;
+import com.apiomdb.demo.models.dto.UsuarioRanking;
 import com.apiomdb.demo.models.entity.Actividad;
 import com.apiomdb.demo.models.entity.Actividad.TipoActividad;
 import com.apiomdb.demo.models.entity.Pelicula;
@@ -89,6 +90,77 @@ public class PeliculaController {
 		return "muroActividad";
 	}
 
+	// Agregar este método al PeliculaController.java
+
+	@RequestMapping(value = "/rankingCinefilos", method = RequestMethod.GET)
+	public String rankingCinefilos(Model model) throws IOException {
+	    
+	    Usuario usuario = new Usuario();
+	    usuario.copia(usu);
+	    Usuario usu1 = serviceUsuario.findOne(usuario.getMail());
+	    
+	    if(usu1 == null) {
+	        return "redirect:../user/registro";
+	    }
+	    
+	    Usuario receptorVacio = serviceUsuario.findOne(UsuarioNone.RECEPTOR_VACIO_MAIL);
+	    
+	    List<Usuario> todosUsuarios = serviceUsuario.findAll();
+	    todosUsuarios.removeIf(u -> u.getMail().equals(usu1.getMail()) || 
+	                                 u.getMail().equals(UsuarioNone.RECEPTOR_VACIO_MAIL));
+	    
+	    // Lista para almacenar el ranking
+	    List<UsuarioRanking> ranking = new ArrayList<>();
+	    
+	    // Calcular promedio de rating IMDb para cada usuario
+	    for(Usuario u : todosUsuarios) {
+	        // Obtener películas guardadas por el usuario (receptor = none)
+	        List<UsuarioPelicula> peliculasGuardadas = 
+	            serviceUsuarioPelicula.findByUsuarioAndReceptor(u.getMail(), receptorVacio.getMail());
+	        
+	        double sumaRatings = 0;
+	        int contadorPeliculasConRating = 0;
+	        
+	        // Para cada película, obtener su rating de IMDb mediante la API
+	        for(UsuarioPelicula up : peliculasGuardadas) {
+	            String imdbID = up.getPelicula().getImdbID();
+	            
+	            // Hacer petición a OMDb API para obtener detalles completos incluyendo rating
+	            String busqueda = "http://www.omdbapi.com/?apikey=dcdf1c79&i=" + imdbID;
+	            String texto = peticion.sendGET(busqueda);
+	            
+	            // Parsear respuesta a PeliculaComp que tiene el campo imdbRating
+	            PeliculaComp peliculaCompleta = gson.fromJson(texto, PeliculaComp.class);
+	            
+	            // Verificar que el rating sea válido (no null ni "N/A")
+	            if(peliculaCompleta.getImdbRating() != null && 
+	               !peliculaCompleta.getImdbRating().equals("N/A")) {
+	                try {
+	                    double rating = Double.parseDouble(peliculaCompleta.getImdbRating());
+	                    sumaRatings += rating;
+	                    contadorPeliculasConRating++;
+	                } catch(NumberFormatException e) {
+	                    // Ignorar películas con rating no numérico
+	                    System.out.println("Rating no numérico para película: " + peliculaCompleta.getTitle());
+	                }
+	            }
+	        }
+	        
+	        // Solo agregar al ranking si el usuario tiene al menos una película con rating
+	        if(contadorPeliculasConRating > 0) {
+	            double promedio = sumaRatings / contadorPeliculasConRating;
+	            ranking.add(new UsuarioRanking(u, promedio, peliculasGuardadas.size()));
+	        }
+	    }
+	    
+	    // Ordenar por promedio de mayor a menor
+	    ranking.sort((a, b) -> Double.compare(b.getPromedioImdb(), a.getPromedioImdb()));
+	    
+	    model.addAttribute("usuario", usu1);
+	    model.addAttribute("ranking", ranking);
+	    
+	    return "rankingCinefilos";
+	}
 	
 //para buscar un listado de películas (por título)
 	@RequestMapping(value = "/buscarPeliculas", method = RequestMethod.GET)

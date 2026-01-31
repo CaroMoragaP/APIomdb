@@ -15,7 +15,7 @@
                 <form th:action="@{/peli/buscar}" method="get">
                     <input type="submit" value="Buscar Películas" class="nav-btn" />
                 </form>
-                <form th:action="@{/ranking/cinefilos}" method="get">
+                <form th:action="@{/peli/rankingCinefilos}" method="get">
                     <input type="submit" value="Ranking Cinéfilos" class="nav-btn" />
                 </form>
                 <form th:action="@{/user/login}" method="get">
@@ -28,7 +28,7 @@
     <!-- Feed de actividades -->
     <div class="activity-feed">
         <div class="feed-header">
-            <h1>🎬 Actividad Reciente</h1>
+            <h1>Actividad Reciente</h1>
             <p>Descubre qué están viendo y compartiendo los cinéfilos</p>
         </div>
 
@@ -80,6 +80,7 @@
                             <!-- GUARDAR_PELICULA -->
                             <div th:if="${actividad.tipoActividad.name() == 'GUARDAR_PELICULA'}" class="activity-action">
                                 <span class="activity-user" th:text="${actividad.usuario.nombre}"></span>
+                                ha guardado
                                 <span class="activity-movie-title" th:text="${actividad.pelicula.title}"></span>
                                 <span th:if="${actividad.ranking > 0}">
                                     con 

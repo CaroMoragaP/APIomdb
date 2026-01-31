@@ -12,15 +12,19 @@
 </head>
 <body>
 <nav class="navbar">
-        <div class="navbar-container">
-	        <h2 class="navbar-title" th:if="${modoCompartidas} == null or !${modoCompartidas}">
+        <div class="navbar-container" style="justify-content: space-between;">
+	        <h2 class="navbar-title" 
+	            th:if="${modoCompartidas} == null or !${modoCompartidas}"
+	            style="text-align: left; white-space: nowrap; flex: 0 0 auto;">
 			    Mis Películas
 			</h2>
-			<h2 class="navbar-title" th:if="${modoCompartidas}">
-			    Películas compartidas para mi
+			<h2 class="navbar-title" 
+			    th:if="${modoCompartidas}"
+			    style="text-align: left; white-space: nowrap; flex: 0 0 auto;">
+			    Películas compartidas para mí
 			</h2>
 
-            <div class="navbar-right">
+            <div class="navbar-right" style="flex: 0 0 auto;">
             	<form th:action="@{/peli/buscar}" method="get">
             		<input type="submit" value="Volver" class="nav-btn">
             	</form>
@@ -54,14 +58,14 @@
                     <h4><span th:text="${item.Title}"></span></h4>
                     <form th:action="@{/peli/verPelisUsuario}" th:method="get">
                         <input type="hidden" th:value="${item.imdbID}" name="imdbID" id="imdbID"/>
-                        <input class="btn btn-dark" type="submit" value="i"/>
+                        <input class="btn btn-dark btn-sm" type="submit" value="i" style="font-size: 0.85rem; padding: 0.4rem 0.8rem; min-width: 35px;"/>
                     </form>
                 </td>
                 <td th:text="${item.Director}"></td>
                 <td th:text="${item.Year}"></td>
                 <td th:text="${item.Runtime}"></td>
                 <td>
-                    <img class="w-25" th:src="${item.Poster}">
+                    <img class="w-25" th:src="${item.Poster}" style="max-width: 80px;">
                 </td>
                 <!-- Sin columnas Amigo / Valorar en este modo -->
             </tr>
@@ -75,15 +79,15 @@
                         <input type="hidden"
                                th:value="${rel.pelicula.imdbID}"
                                name="imdbID"
-                               id="imdbID__[[${iterStat.index}]]"/>
-                        <input class="btn btn-dark" type="submit" value="i"/>
+                               th:id="'imdbID__' + ${iterStat.index}"/>
+                        <input class="btn btn-dark btn-sm" type="submit" value="i" style="font-size: 0.85rem; padding: 0.4rem 0.8rem; min-width: 35px;"/>
                     </form>
                 </td>
                 <td th:text="${rel.pelicula.Director}"></td>
                 <td th:text="${rel.pelicula.Year}"></td>
                 <td th:text="${rel.pelicula.Runtime}"></td>
                 <td>
-                    <img class="w-25" th:src="${rel.pelicula.Poster}">
+                    <img class="w-25" th:src="${rel.pelicula.Poster}" style="max-width: 80px;">
                 </td>
 
                 <!-- Amigo que la envió -->
@@ -97,36 +101,36 @@
                             <input type="hidden" name="imdbID"
                                    th:value="${rel.pelicula.imdbID}"/>
 
-                            <div class="rating ms-3">
+                            <div class="rating" style="display: flex; justify-content: center; gap: 0.3rem;">
                                 <input type="radio"
                                        th:id="'star5__' + ${iterStat.index}"
                                        name="rating" value="5"
                                        onclick="this.form.submit()"/>
-                                <label th:for="'star5__' + ${iterStat.index}">★</label>
+                                <label th:for="'star5__' + ${iterStat.index}" style="font-size: 1.5rem;">★</label>
 
                                 <input type="radio"
                                        th:id="'star4__' + ${iterStat.index}"
                                        name="rating" value="4"
                                        onclick="this.form.submit()"/>
-                                <label th:for="'star4__' + ${iterStat.index}">★</label>
+                                <label th:for="'star4__' + ${iterStat.index}" style="font-size: 1.5rem;">★</label>
 
                                 <input type="radio"
                                        th:id="'star3__' + ${iterStat.index}"
                                        name="rating" value="3"
                                        onclick="this.form.submit()"/>
-                                <label th:for="'star3__' + ${iterStat.index}">★</label>
+                                <label th:for="'star3__' + ${iterStat.index}" style="font-size: 1.5rem;">★</label>
 
                                 <input type="radio"
                                        th:id="'star2__' + ${iterStat.index}"
                                        name="rating" value="2"
                                        onclick="this.form.submit()"/>
-                                <label th:for="'star2__' + ${iterStat.index}">★</label>
+                                <label th:for="'star2__' + ${iterStat.index}" style="font-size: 1.5rem;">★</label>
 
                                 <input type="radio"
                                        th:id="'star1__' + ${iterStat.index}"
                                        name="rating" value="1"
                                        onclick="this.form.submit()"/>
-                                <label th:for="'star1__' + ${iterStat.index}">★</label>
+                                <label th:for="'star1__' + ${iterStat.index}" style="font-size: 1.5rem;">★</label>
                             </div>
                         </form>
                     </div>

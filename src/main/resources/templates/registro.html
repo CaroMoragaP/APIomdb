@@ -7,21 +7,21 @@
 <link rel="stylesheet" href="/estilo.css">
 </head>
 <body>
-	<!-- Top Navigation Bar -->
 	<nav class="navbar">
 		<div class="navbar-container">
-			<div class="navbar-left">
-				<h2 class="navbar-title">MovieApp</h2>
-			</div>
+				<h2 class="navbar-title">Registro</h2>
+			<div class="navbar-right">
+                <form th:action="@{/user/login}" th:object="${usuario}" th:method="get">
+                    <input type="submit" value="Volver" class="search-btn" />
+                </form>
+            </div>
 		</div>
 	</nav>
 
 	<!-- Main Content Area -->
 	<div class="main-content">
 		<div class="login-container">
-			<div class="login-card">
-				<h1 class="login-title">Registro</h1>
-				
+			<div class="login-card">		
 				<form th:action="@{/user/registrado}" th:object="${usu}" method="get" class="login-form">
 					<div class="form-group">
 						<label for="nombre" class="form-label">Nombre</label>
@@ -57,17 +57,11 @@
 				</form>
 			</div>
 		</div>
-		
-					<div class=text-center>
-				<form class="inline-form" th:action="@{/user/login}">
-					<button type="submit" class="nav-btn">Volver Atrás</button>
-				</form>
-			</div>
 	</div>
 
 	<!-- Footer -->
 	<footer class="footer">
-		<h3>Carolina Moraga Ponce</h3>
+		<p>Carolina Moraga Ponce</p>
 	</footer>
 	
 </body>
